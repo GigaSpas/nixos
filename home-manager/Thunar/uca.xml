@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1598698697630355-1</unique-id>
+	<command>exo-open --working-directory %f --launch TerminalEmulator</command>
+	<description>Example for a custom action</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>emblem-warning</icon>
+	<name>Open Thunar as ROOT</name>
+	<submenu></submenu>
+	<unique-id>1598701928170480-2</unique-id>
+	<command>sudo thunar %f</command>
+	<description>Open Thunar as ROOT</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<other-files/>
+	<text-files/>
+</action>
+<action>
+	<icon>application-x-archive</icon>
+	<name>Extract Archive Here</name>
+	<submenu></submenu>
+	<unique-id>1598703918895347-6</unique-id>
+	<command>xarchiver -x %d %N</command>
+	<description></description>
+	<range></range>
+	<patterns>*</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>wine</icon>
+	<name>Prime-wine</name>
+	<submenu></submenu>
+	<unique-id>1711544527175898-1</unique-id>
+	<command>prime-run wine %f</command>
+	<description></description>
+	<range>*</range>
+	<patterns>*.exe</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>wine</icon>
+	<name>Wine</name>
+	<submenu></submenu>
+	<unique-id>1711544648447631-2</unique-id>
+	<command>wine  %f</command>
+	<description></description>
+	<range>*</range>
+	<patterns>*.exe</patterns>
+	<other-files/>
+</action>
+<action>
+	<icon>configure</icon>
+	<name>Make exec</name>
+	<submenu></submenu>
+	<unique-id>1715028969054286-1</unique-id>
+	<command>chmod +x f</command>
+	<description></description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<other-files/>
+</action>
+</actions>
