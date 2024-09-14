@@ -11,7 +11,6 @@
 
     nixvim = {
       url = "github:nix-community/nixvim/nixos-24.05";
-
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -33,13 +32,13 @@
         inherit system;
         modules = [
           ./configuration.nix
-
           home-manager.nixosModules.home-manager {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages =true;
             home-manager.users.spas = {
               imports = [
                 ./home-manager/home.nix
+              nixvim.homeManagerModules.nixvim
               ];
             };
           }
