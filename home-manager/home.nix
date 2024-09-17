@@ -1,7 +1,8 @@
 { config, pkgs, nixvim, ... }:
 {
   imports = [
-    ./starship/starship.nix
+  	./nvim.nix
+	./starship.nix
   ];
 
   home.username = "spas";
@@ -40,47 +41,6 @@
       '';
   };
 
-
-  programs.nixvim = {
-	  enable = true;
-
-	  colorschemes.catppuccin.enable = true;
-
-	  plugins = {
-		  lualine.enable = true;
-
-		  lsp = {
-			  enable = true;
-			  servers = {
-				rust-analyzer = {
-				  enable = true;
-				  installCargo = true;
-				  installRustc= true;
-				  };
-
-				  lua-ls.enable = true;
-				  nixd.enable = true;
-			  };
-		  };
-	  };
-	  options = {
-		number = true;
-		relativenumber = true;
-		tabstop = 2;
-		shiftwidth = 2;
-		shiftround = true;
-		expandtab = true;
-
-		showcmd = true;
-		laststatus = true;
-		cursorline = true;
-
-		autoindent = true;
-		autoread = true;
-		autowrite = true;
-
-	  };
-  };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
