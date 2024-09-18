@@ -1,4 +1,4 @@
-{ config, pkgs, nixvim, ... }:
+{config, pkgs, nixvim, inputs, ... }:
 {
   imports = [
   	./nvim.nix
@@ -18,6 +18,11 @@
   home.file.".config/qtile" = {
     source = ./qtile;
     recursive = true;
+    #onChange = home-manager switch;
+  };
+
+  home.file.".config/Thunar/uca.xml" = {
+    source = ./Thunar/uxa.xml;
     #onChange = home-manager switch;
   };
 
