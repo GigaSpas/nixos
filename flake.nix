@@ -1,8 +1,9 @@
 {
-  description = "A very basic flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-24.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -14,31 +15,39 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    neovim-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    neorg-overlay.url = "github:nvim-neorg/nixpkgs-neorg-overlay";
+
   };
 
-  outputs = {self, nixpkgs, home-manager, nixvim}: 
+  outputs = inputs: 
 
   let 
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      config.allowUnfree = true;
-    };
-    lib = nixpkgs.lib;
-
+    lib = inputs.nixpkgs.lib;
+    specialArgs = { inherit inputs; };
   in {
     nixosConfigurations = {
       spas = lib.nixosSystem {
         inherit system;
+
         modules = [
           ./configuration.nix
-          home-manager.nixosModules.home-manager {
+
+          inputs.home-manager.nixosModules.home-manager {
+            nixpkgs.overlays = [
+              inputs.neorg-overlay.overlays.default
+            ];
+            home-manager.extraSpecialArgs = specialArgs;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages =true;
             home-manager.users.spas = {
               imports = [
-                ./home-manager/home.nix
-              nixvim.homeManagerModules.nixvim
+              ./home-manager/home.nix
+              inputs.nixvim.homeManagerModules.nixvim
               ];
             };
           }

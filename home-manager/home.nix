@@ -22,7 +22,7 @@
   };
 
   home.file.".config/Thunar/uca.xml" = {
-    source = ./Thunar/uxa.xml;
+    source = ./Thunar/uca.xml;
     #onChange = home-manager switch;
   };
 
