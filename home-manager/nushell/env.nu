@@ -101,7 +101,7 @@ $env.NU_PLUGIN_DIRS = [
 $env.PATH = ($env.PATH | split row (char esep) | prepend '/home/spas/.cargo/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend '/home/spas/.radicle/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend '/home/spas/.local/bin')
-$env.XDG_DATA_HOME = '$HOME/.local/share'
+$env.XDG_DATA_HOME = '/home/spas/.local/share'
 
 mkdir ~/.cache/starship
 starship init nu | save -f ~/.cache/starship/init.nu
