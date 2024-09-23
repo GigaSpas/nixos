@@ -44,6 +44,7 @@
             home-manager.extraSpecialArgs = specialArgs;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages =true;
+            home-manager.backupFileExtension = "backup";
             home-manager.users.spas = {
               imports = [
               ./home-manager/home.nix

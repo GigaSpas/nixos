@@ -1,7 +1,7 @@
 {
   programs.starship = {
     enable = true;
-    enableNushellIntegration = true;
+   #enableNushellIntegration = true;
     settings = {
 ## FIRST LINE/ROW: Info & Status
 # First param ─┌

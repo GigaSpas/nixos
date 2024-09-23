@@ -2,7 +2,7 @@
 {
   imports = [
   	./nvim.nix
-	./starship.nix
+	  ./starship.nix
   ];
 
   home.username = "spas";
@@ -13,7 +13,10 @@
   home.packages = [
     pkgs.rustup
     pkgs.lua
+    pkgs.khal
   ];
+    
+  accounts.calendar.accounts.spas.khal.enable = true;
 
   home.file.".config/qtile" = {
     source = ./qtile;

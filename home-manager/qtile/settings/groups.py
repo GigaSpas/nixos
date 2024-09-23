@@ -9,7 +9,7 @@ from settings.keys import mod, keys
 # Get the icons at https://www.nerdfonts.com/cheat-sheet (you need a Nerd Font)
 
 groups = [Group(i) for i in [
-    "   ", "  ", "   ", "   ", "   ", " ﲵ  ", "   ", "   ", "   ",
+    "   ", "  ", " 󰓓 ", "  ", " 1 ", " 2 ", " 3 ", "4 ", " 5 ",
 ]]
 
 for i, group in enumerate(groups):

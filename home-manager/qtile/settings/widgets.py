@@ -6,12 +6,11 @@ from settings.theme import colors
 def base(fg='text', bg='dark'): 
     return {
         'foreground': colors[fg],
-        'background': colors[bg]
-    }
+        'background': colors[bg] }
 
 
 def separator():
-    return widget.Sep(**base(), linewidth=0, padding=5)
+    return widget.Sep(**base(), linewidth=1, padding=5)
 
 
 def icon(fg='text', bg='dark', fontsize=16, text="?"):
@@ -37,7 +36,7 @@ def workspaces():
         separator(),
         widget.GroupBox(
             **base(fg='light'),
-            font='UbuntuMono Nerd Font',
+            font='CommitMono Nerd Font',
             fontsize=19,
             margin_y=3,
             margin_x=0,
@@ -67,9 +66,9 @@ primary_widgets = [
 
     separator(),
 
-    powerline('color4', 'dark'),
 
-    widget.TextBox(**base(bg='color4'), text=' rchLinux'),
+    widget.TextBox(**base(bg='color2'), text='NIXOS'),
+
 
     # icon(bg="color4", text=' '), # Icon: nf-fa-download 
     # widget.CheckUpdates(
@@ -82,25 +81,19 @@ primary_widgets = [
     #     custom_command='checkupdates',
     # ),
 
-    powerline('color3', 'color4'),
-
-    icon(bg="color3", text=' '),  # Icon: nf-fa-feed
-    
-    widget.Net(**base(bg='color3'), interface='wlp2s0'),
-
-    powerline('color2', 'color3'),
-
     widget.CurrentLayoutIcon(**base(bg='color2'), scale=0.65),
 
     widget.CurrentLayout(**base(bg='color2'), padding=5),
 
-    powerline('color1', 'color2'),
-
-    icon(bg="color1", fontsize=17, text=' '), # Icon: nf-mdi-calendar_clock
+    icon(bg="color3", text=' '),  # Icon: nf-fa-feed
+    
+    widget.Net(**base(bg='color3'), format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}'),
 
     widget.Clock(**base(bg='color1'), format='%d/%m/%Y - %H:%M '),
 
-    powerline('dark', 'color1'),
+    widget.KhalCalendar(**base(bg='color2'), width=150, scroll=True, scroll_interval=0.05, scroll_fixed_width=True),
+
+    widget.Battery(**base(bg="color3"), format='{char} {percent:2.0%} {hour:d}:{min:02d}'),
 
     widget.Systray(background=colors['dark'], padding=5),
 ]
@@ -124,7 +117,7 @@ secondary_widgets = [
 ]
 
 widget_defaults = {
-    'font': 'UbuntuMono Nerd Font Bold italic',
+    'font': 'CommitMono Nerd Font Bold',
     'fontsize': 15,
     'padding': 3,
 }

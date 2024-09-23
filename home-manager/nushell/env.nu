@@ -104,7 +104,7 @@ $env.PATH = ($env.PATH | split row (char esep) | prepend '/home/spas/.local/bin'
 $env.XDG_DATA_HOME = '/home/spas/.local/share'
 
 mkdir ~/.cache/starship
-starship init nu | save -f ~/.cache/starship/init.nu
+/nix/store/4zam46514smmgfi3xqbbix2vagypw0qj-starship-1.19.0/bin/starship init nu | save -f ~/.cache/starship/init.nu
 
 do --env {
     let ssh_agent_file = (

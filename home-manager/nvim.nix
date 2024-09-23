@@ -8,7 +8,7 @@
     mapleader = " ";
     };
 
-    colorschemes.catppuccin.enable = true;
+    colorschemes.nord.enable = true;
 
     plugins = {
       lualine.enable = true;

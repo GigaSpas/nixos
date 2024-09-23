@@ -8,8 +8,12 @@
 
 
   # Bootloader.
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint= "/boot";
   boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
@@ -47,9 +51,14 @@
   hardware.opengl = {
     enable = true;
   };
+boot.blacklistedKernelModules = [ "nouveau" "nvidiafb" ];
+boot.initrd.kernelModules = [ "nvidia" ];
+boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+
+
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia"];
 
   hardware.nvidia = {
 
@@ -101,7 +110,6 @@
     ];
   
   };
-  services.xserver.windowManager.i3.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -135,6 +143,7 @@
     packages = with pkgs; [
     ];
   };
+
 
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "CommitMono" ]; })
@@ -170,6 +179,8 @@
     rofi
     git
     lshw
+    os-prober
+    qbittorrent
 
     #wine
     wineWowPackages.stable
