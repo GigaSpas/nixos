@@ -119,8 +119,6 @@
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
-  };
-
 # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -189,26 +187,28 @@
       rofi-wayland
       git
       lshw
-      os-prober
       qbittorrent
       ventoy
       brightnessctl
       dunst
       libnotify
-      hyprpaper
+      cliphist
+      libsForQt5.polkit-kde-agent
 
 #wine
       wineWowPackages.stable
       winetricks
+
+
+#customization
+      starship
+      hyprpicker
+      hyprpaper
       waybar
       (pkgs.waybar.overrideAttrs (oldAttrs: {
                                   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
                                   })
       )
-
-#customization
-      starship
-
 #programs
       kitty
       nushell
