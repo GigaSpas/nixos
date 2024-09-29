@@ -3,11 +3,11 @@
 {
   imports =
     [
-      ./hardware-configuration.nix
+    ./hardware-configuration.nix
     ];
 
 
-  # Bootloader.
+# Bootloader.
   boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint= "/boot";
@@ -17,18 +17,18 @@
   boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+#networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+# Enable networking
+    networking.networkmanager.enable = true;
 
-  # Enable network manager applet
+# Enable network manager applet
   programs.nm-applet.enable = true;
 
-  # Set your time zone.
+# Set your time zone.
   time.timeZone = "Europe/Sofia";
 
-  # Select internationalisation properties.
+# Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -43,75 +43,85 @@
     LC_TIME = "bg_BG.UTF-8";
   };
 
-  # Enable the X11 windowing system.
+# Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  
-  # Enable OpenGL
+
+# Enable OpenGL
   hardware.opengl = {
     enable = true;
   };
-boot.blacklistedKernelModules = [ "nouveau" "nvidiafb" ];
-boot.initrd.kernelModules = [ "nvidia" ];
-boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+#boot.blacklistedKernelModules = [ "nouveau" "nvidiafb" ];
+  boot.initrd.kernelModules = [ "nvidia" ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
 
 
 
-  # Load nvidia driver for Xorg and Wayland
+# Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia"];
 
   hardware.nvidia = {
 
-    # Modesetting is required.
+# Modesetting is required.
     modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
+# Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+# Enable this if you have graphical corruption issues or application crashes after waking
+# up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+# of just the bare essentials.
     powerManagement.enable = false;
 
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+# Fine-grained power management. Turns off GPU when not in use.
+# Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
 
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+# Use the NVidia open source kernel module (not to be confused with the
+# independent third-party "nouveau" open source driver).
+# Support is limited to the Turing and later architectures. Full list of 
+# supported GPUs is at: 
+# https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+# Only available from driver 515.43.04+
+# Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;
 
-    # Enable the Nvidia settings menu,
-	# accessible via `nvidia-settings`.
+# Enable the Nvidia settings menu,
+# accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+# Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  	hardware.nvidia.prime = {
-		offload = {
-			enable = true;
-			enableOffloadCmd = true;
-		};
-		# Make sure to use the correct Bus ID values for your system!
-		intelBusId = "PCI:0:2:0";
-		nvidiaBusId = "PCI:1:0:0";
-	};
-
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.windowManager.qtile= {
-    enable = true;
-    extraPackages = python3Packages: with python3Packages; [
-      qtile-extras
-    ];
-  
+  hardware.nvidia.prime = {
+    offload = {
+      enable = true;
+      enableOffloadCmd = true;
+    };
+# Make sure to use the correct Bus ID values for your system!
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:1:0:0";
   };
 
-  # Configure keymap in X11
+#services.xserver.displayManager.lightdm.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
+#HYPRLAND
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+  environment.sessionVariables = {
+    WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
+  };
+
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+
+  };
+
+# Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -126,15 +136,15 @@ boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+# If you want to use JACK applications, uncomment this
+#jack.enable = true;
 
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
+# use the example session manager (no others are packaged yet so this is enabled by default,
+# no need to redefine it in your config for now)
+#media-session.enable = true;
   };
 
-   services.libinput.enable = true;
+  services.libinput.enable = true;
 
   users.users.spas = {
     isNormalUser = true;
@@ -155,78 +165,90 @@ boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
     thunar-archive-plugin
-    thunar-volman
+      thunar-volman
   ];
 
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+      dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+      localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+# List packages installed in system profile. To search, run:
+# $ nix search wget
   environment.systemPackages = with pkgs; [
-    #tools
+#tools
     neovim
-    zoxide
-    ripgrep
-    bat
-    fzf
-    btop
-    syncthing
-    rofi
-    git
-    lshw
-    os-prober
-    qbittorrent
+      zoxide
+      ripgrep
+      bat
+      fzf
+      btop
+      syncthing
+      rofi-wayland
+      git
+      lshw
+      os-prober
+      qbittorrent
+      ventoy
+      brightnessctl
+      dunst
+      libnotify
+      hyprpaper
 
-    #wine
-    wineWowPackages.stable
-    winetricks
+#wine
+      wineWowPackages.stable
+      winetricks
+      waybar
+      (pkgs.waybar.overrideAttrs (oldAttrs: {
+                                  mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
+                                  })
+      )
 
-    #customization
-    starship
+#customization
+      starship
 
-    #programs
-    kitty
-    nushell
-    keepassxc
-    xarchiver
-    neofetch
-    brave
-    discord
-  ];
+#programs
+      kitty
+      nushell
+      keepassxc
+      xarchiver
+      neofetch
+      firefox
+      discord
+      pavucontrol
+      lutris
+      ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+# Some programs need SUID wrappers, can be configured further or are
+# started in user sessions.
+# programs.mtr.enable = true;
+# programs.gnupg.agent = {
+#   enable = true;
+#   enableSSHSupport = true;
+# };
 
-  # List services that you want to enable:
+# List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+# Enable the OpenSSH daemon.
+# services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+# Open ports in the firewall.
+# networking.firewall.allowedTCPPorts = [ ... ];
+# networking.firewall.allowedUDPPorts = [ ... ];
+# Or disable the firewall altogether.
+# networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+# This value determines the NixOS release from which the default
+# settings for stateful data, like file locations and database versions
+# on your system were taken. It‘s perfectly fine and recommended to leave
+# this value at the release version of the first install of this system.
+# Before changing this value read the documentation for this option
+# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 }
 

@@ -18,9 +18,14 @@
     
   accounts.calendar.accounts.spas.khal.enable = true;
 
-  home.file.".config/qtile" = {
-    source = ./qtile;
-    recursive = true;
+  home.file.".config/hyprland/hyprland.conf" = {
+    source = ./hyprland/hyprland.conf;
+    #onChange = home-manager switch;
+  };
+
+
+  home.file.".config/waybar/config.jsonc" = {
+    source = ./hyprland/config.jsonc;
     #onChange = home-manager switch;
   };
 
